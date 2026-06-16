@@ -1,0 +1,113 @@
+
+        :root {
+            --primary: #4CAF50;
+            --secondary: #2E7D32;
+            --accent: #8BC34A;
+            --text: #333333;
+            --light: #F5F5F5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background-color: #f8f9fa;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 0.5rem;
+        }
+        
+        .language-selector:hover .language-dropdown {
+            display: block;
+        }
+        
+.chat-container {
+    height: 420px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.chat-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.message {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Chat Bubble Styles */
+.user-message {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+    border-radius: 18px 18px 4px 18px;
+}
+
+.ai-message {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    align-self: flex-start;
+    border-radius: 18px 18px 18px 4px;
+}
+
+/* Voice Button */
+#voice-btn {
+    transition: all 0.3s ease;
+}
+
+#voice-btn.listening {
+    background-color: #ef4444;
+    animation: pulse 1.5s infinite;
+    transform: scale(1.08);
+}
+.lang-btn {
+    transition: all 0.2s ease;
+}
+
+.lang-btn.active {
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
