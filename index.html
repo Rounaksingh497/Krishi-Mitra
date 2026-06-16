@@ -67,7 +67,7 @@
             <div class="bg-white rounded-lg shadow p-4 mb-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="font-semibold text-lg">Welcome back, Soyeb!</h3>
+                        <h3 class="font-semibold text-lg">Welcome back, User!</h3>
                         <p class="text-gray-600">Last login: Today at 9:42 AM</p>
                     </div>
                     <div class="flex items-center space-x-2">
@@ -275,49 +275,62 @@
         </div>
 
         <!-- SMS Interface -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">SMS Interface</h2>
-            <div class="bg-white rounded-lg shadow overflow-hidden">
-                <div class="border-b p-4 bg-gray-50">
-                    <h3 class="font-semibold text-lg">Send/Receive Messages</h3>
-                    <p class="text-sm text-gray-600">Works on all basic phones (no internet needed)</p>
+        <div class="mb-12" id="ai-chat">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800 flex items-center gap-3">
+            <i class="fas fa-robot text-green-600"></i>
+            KISAN-SATHI AI Assistant
+            </h2>
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-green-100">
+            <!-- Chat Header -->
+            <div class="bg-green-700 text-white p-4 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-green-700">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold">AI Farming Expert</h3>
+                    </div>
                 </div>
-                <div class="p-4">
-                    <div class="mb-4 border rounded-lg p-3 bg-gray-50 h-64 overflow-y-auto">
-                        <div class="flex justify-end mb-3">
-                            <div class="bg-green-100 rounded-lg p-3 max-w-xs">
-                                <p>What's the best crop for black soil this season?</p>
-                                <p class="text-xs text-gray-500 text-right mt-1">Today, 10:15 AM</p>
-                            </div>
-                        </div>
-                        <div class="flex mb-3">
-                            <div class="bg-blue-100 rounded-lg p-3 max-w-xs">
-                                <p>For Kharif season in Mandya with black soil, we recommend: 1. Maize (HYV-456) 2. Soybean (JS-335) 3. Cotton (Bollgard-II). Expected rainfall is good for all these.</p>
-                                <p class="text-xs text-gray-500 text-right mt-1">Today, 10:17 AM</p>
-                            </div>
-                        </div>
-                        <div class="flex justify-end mb-3">
-                            <div class="bg-green-100 rounded-lg p-3 max-w-xs">
-                                <p>What's the market price for maize today?</p>
-                                <p class="text-xs text-gray-500 text-right mt-1">Today, 10:18 AM</p>
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="bg-blue-100 rounded-lg p-3 max-w-xs">
-                                <p>Mandya APMC maize price: ₹1,650/quintal (+2% from yesterday). Bengaluru price: ₹1,720. Current trend suggests prices may rise further next week.</p>
-                                <p class="text-xs text-gray-500 text-right mt-1">Today, 10:19 AM</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <input type="text" placeholder="Type your message..." class="flex-grow p-3 border rounded-l-lg focus:outline-none focus:ring-1 focus:ring-green-500">
-                        <button class="bg-green-600 hover:bg-green-700 text-white px-4 rounded-r-lg">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-2">Standard SMS rates apply. For urgent help, call Farmer Helpline: 1800-123-4567</p>
+
+            <!-- Language Selector -->
+                <div class="flex gap-1 bg-green-600 rounded-lg p-1" id="language-selector">
+                    <button data-lang="en" class="lang-btn px-4 py-1 rounded-md text-sm font-medium">English</button>
+                    <button data-lang="hi" class="lang-btn px-4 py-1 rounded-md text-sm font-medium active">हिंदी</button>
+                    <button data-lang="bn" class="lang-btn px-4 py-1 rounded-md text-sm font-medium">বাংলা</button>
                 </div>
             </div>
+
+        <!-- Messages Area -->
+            <div id="chat-container" class="chat-container p-6 bg-gray-50 space-y-4 min-h-[420px]">
+                <!-- Messages added by JS -->
+            </div>
+
+        <!-- Input Area -->
+            <div class="p-4 border-t bg-white">
+                <div class="flex gap-2">
+                    <input 
+                        type="text" 
+                        id="chat-input"
+                        placeholder="Ask anything about farming..." 
+                        class="flex-1 border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200"
+                    >
+                <button 
+                    id="voice-btn"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl transition flex items-center justify-center w-14 h-14"
+                    title="Voice Input">
+                    <i class="fas fa-microphone text-xl"></i>
+                </button>
+                <button 
+                    id="send-btn"
+                    class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl transition flex items-center gap-2">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+                </div>
+                <p class="text-xs text-gray-500 mt-3 text-center" id="lang-status">
+                    Current Language: हिंदी
+                </p>
+            </div>
+        </div>
         </div>
     </main>
 

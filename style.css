@@ -48,9 +48,66 @@
             display: block;
         }
         
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-  
+.chat-container {
+    height: 420px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.chat-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.message {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Chat Bubble Styles */
+.user-message {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+    border-radius: 18px 18px 4px 18px;
+}
+
+.ai-message {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    align-self: flex-start;
+    border-radius: 18px 18px 18px 4px;
+}
+
+/* Voice Button */
+#voice-btn {
+    transition: all 0.3s ease;
+}
+
+#voice-btn.listening {
+    background-color: #ef4444;
+    animation: pulse 1.5s infinite;
+    transform: scale(1.08);
+}
+.lang-btn {
+    transition: all 0.2s ease;
+}
+
+.lang-btn.active {
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
