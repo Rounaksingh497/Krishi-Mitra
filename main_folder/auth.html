@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Signup - KISAN-SATHI</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Video Background Styles */
+        .video-bg {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2;
+            object-fit: cover;
+        }
+
+        /* Dark Overlay to make the form readable */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Adjust the 0.4 to make it darker or lighter */
+            z-index: -1;
+        }
+
+        /* Glassmorphism Card Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* Smooth slide animation for the Name field */
+        .name-field-wrapper {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        .slide-up {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0 !important;
+        }
+        .slide-down {
+            max-height: 100px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center font-sans">
+
+    <video autoplay loop muted playsinline class="video-bg">
+        <source src="intro_video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <div class="video-overlay"></div>
+
+    <div class="glass-card p-10 rounded-2xl w-full max-w-md transform transition-all hover:scale-[1.01] duration-300 z-10 relative">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <i class="fas fa-seedling text-white text-3xl"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold text-gray-800 tracking-tight" id="form-title">Welcome Back</h2>
+            <p class="text-sm text-gray-600 mt-2 font-medium" id="form-subtitle">Log in to access your farming dashboard</p>
+        </div>
+
+        <form id="auth-form" class="space-y-5">
+            <div id="name-group" class="name-field-wrapper slide-up">
+                <label class="block text-sm font-semibold text-gray-800 mb-1">Full Name</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-user text-gray-500"></i>
+                    </div>
+                    <input type="text" id="name" class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all shadow-sm bg-white bg-opacity-90" placeholder="e.g. Santu Saha">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-800 mb-1">Phone Number</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-phone text-gray-500"></i>
+                    </div>
+                    <input type="tel" id="phone" required class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all shadow-sm bg-white bg-opacity-90" placeholder="Enter phone number">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-800 mb-1">Password</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-lock text-gray-500"></i>
+                    </div>
+                    <input type="password" id="password" required class="w-full pl-10 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all shadow-sm bg-white bg-opacity-90" placeholder="••••••••">
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-3 px-4 rounded-xl shadow-lg transform transition-all active:scale-95 flex justify-center items-center gap-2 mt-6">
+                <span id="btn-text">Sign In</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <div class="text-center mt-6">
+            <p class="text-sm text-gray-700 font-medium">
+                <span id="toggle-text">Don't have an account?</span> 
+                <button type="button" id="toggle-form" class="font-bold text-green-700 hover:text-green-900 transition-colors focus:outline-none underline">
+                    Sign up here
+                </button>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let isLogin = true;
+        const formTitle = document.getElementById('form-title');
+        const formSubtitle = document.getElementById('form-subtitle');
+        const nameGroup = document.getElementById('name-group');
+        const toggleFormBtn = document.getElementById('toggle-form');
+        const toggleText = document.getElementById('toggle-text');
+        const btnText = document.getElementById('btn-text');
+        const form = document.getElementById('auth-form');
+
+        // Toggle between Login and Signup with Animations
+        toggleFormBtn.addEventListener('click', () => {
+            isLogin = !isLogin;
+            
+            // Update Texts
+            formTitle.textContent = isLogin ? 'Welcome Back' : 'Create Account';
+            formSubtitle.textContent = isLogin ? 'Log in to access your farming dashboard' : 'Join KISAN-SATHI to get started';
+            btnText.textContent = isLogin ? 'Sign In' : 'Sign Up';
+            toggleText.textContent = isLogin ? "Don't have an account?" : "Already have an account?";
+            toggleFormBtn.textContent = isLogin ? "Sign up here" : "Log in here";
+            
+            // Animate Name Field
+            if (isLogin) {
+                nameGroup.classList.remove('slide-down');
+                nameGroup.classList.add('slide-up');
+                document.getElementById('name').removeAttribute('required');
+            } else {
+                nameGroup.classList.remove('slide-up');
+                nameGroup.classList.add('slide-down');
+                document.getElementById('name').setAttribute('required', 'true');
+            }
+        });
+
+        // Handle Form Submit
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const name = document.getElementById('name').value;
+
+            const endpoint = isLogin ? '/api/login' : '/api/signup';
+            const payload = isLogin ? { phone, password } : { name, phone, password };
+
+            const originalBtnText = btnText.textContent;
+            btnText.textContent = "Processing...";
+
+            try {
+                const response = await fetch(`http://localhost:5000${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alert(data.error);
+                    btnText.textContent = originalBtnText;
+                    return;
+                }
+
+                if (isLogin) {
+                    localStorage.setItem('kisan_token', data.token);
+                    localStorage.setItem('kisan_user', JSON.stringify(data.user));
+                    window.location.href = 'index.html'; 
+                } else {
+                    alert("Account created successfully! You can now log in.");
+                    toggleFormBtn.click(); 
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Server error. Make sure your backend is running on port 5000.");
+            } finally {
+                if(!isLogin) btnText.textContent = originalBtnText;
+            }
+        });
+    </script>
+</body>
+</html>
