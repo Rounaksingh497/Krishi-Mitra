@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="kisansathi logo.png">
+    <title>KISAN-SATHI-AI for Farmers</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+
+
+<body>
+    <!-- Header/Navigation -->
+    <header class="bg-white border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
+
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 flex-shrink-0">
+                <div class="w-8 h-8 bg-green-700 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-leaf text-green-200 text-sm"></i>
+                </div>
+                <span class="font-semibold text-gray-900 text-[15px] tracking-tight">
+                    KISAN<span class="text-green-700">-SATHI</span>
+                </span>
+            </a>
+
+            <!-- Nav -->
+            <nav class="hidden md:flex items-center gap-1 flex-1">
+                <a href="#dashboard"
+                    class="text-sm px-3 py-1.5 rounded-md text-green-800 bg-green-50 font-medium">Dashboard</a>
+                <a href="#advisory"
+                    class="text-sm px-3 py-1.5 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition">Advisories</a>
+                <a href="#ai-chat"
+                    class="text-sm px-3 py-1.5 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition">AI
+                    Chat</a>
+                <a href="#"
+                    class="text-sm px-3 py-1.5 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition">Market</a>
+            </nav>
+
+            <!-- Auth section -->
+            <div id="auth-section" class="flex items-center gap-2 flex-shrink-0">
+
+                <!-- Signed out -->
+                <a href="auth.html" id="signin-btn"
+                    class="flex items-center gap-1.5 bg-green-700 hover:bg-green-800 text-green-50 text-sm font-medium px-4 py-2 rounded-md transition">
+                    <i class="fas fa-user text-xs"></i> Sign in
+                </a>
+
+                <!-- Signed in (hidden by default, shown via JS) -->
+                <div id="profile-section" class="hidden items-center gap-2">
+
+                    <!-- Notification bell -->
+                    <button
+                        class="relative w-9 h-9 flex items-center justify-center border border-gray-200 rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition">
+                        <i class="fas fa-bell text-sm"></i>
+                        <span
+                            class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full border border-white"></span>
+                    </button>
+
+                    <div class="w-px h-5 bg-gray-200"></div>
+
+                    <!-- Avatar + name dropdown trigger -->
+                    <div class="relative" id="profile-menu-wrap">
+                        <button id="profile-menu-btn"
+                            class="flex items-center gap-2 border border-gray-200 rounded-md px-2.5 py-1.5 hover:bg-gray-50 transition">
+                            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-xs font-semibold text-green-800"
+                                id="avatar-initials">RS</div>
+                            <span id="welcome-text" class="text-sm font-medium text-gray-800"></span>
+                            <i class="fas fa-chevron-down text-[10px] text-gray-400" id="chevron-icon"></i>
+                        </button>
+
+                        <!-- Dropdown -->
+                        <div id="profile-dropdown"
+                            class="hidden absolute right-0 mt-1.5 w-48 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50">
+                            <div class="px-3.5 py-3 border-b border-gray-100">
+                                <p class="text-sm font-medium text-gray-900" id="dropdown-name"></p>
+                                <p class="text-xs text-gray-500 mt-0.5" id="dropdown-email"></p>
+                            </div>
+                            <button id="edit-profile-btn"
+                                class="flex items-center gap-2.5 w-full text-left px-3.5 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                                <i class="fas fa-user-edit w-4"></i> Edit profile
+                            </button>
+                            <button
+                                class="flex items-center gap-2.5 w-full text-left px-3.5 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                                <i class="fas fa-cog w-4"></i> Settings
+                            </button>
+                            <div class="border-t border-gray-100"></div>
+                            <button id="logout-btn"
+                                class="flex items-center gap-2.5 w-full text-left px-3.5 py-2.5 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition">
+                                <i class="fas fa-sign-out-alt w-4"></i> Log out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-green-500 to-green-700 text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">KISAN-SATHI-AI-Powered Farming Assistant</h1>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Get personalized crop recommendations, weather alerts, and market
+                prices delivered via SMS - no internet required</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <input type="tel" placeholder="Enter phone number"
+                    class="px-4 py-3 rounded-md text-gray-800 w-full sm:w-64">
+                <button class="bg-white text-green-700 font-bold px-6 py-3 rounded-md hover:bg-gray-100 transition">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard -->
+    <main class="container mx-auto px-4 py-8" id="dashboard">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Farmer Dashboard</h2>
+            <div class="bg-white rounded-lg shadow p-4 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-semibold text-lg">Welcome back, User!</h3>
+                        <p class="text-gray-600">Last login: Today at 9:42 AM</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Active</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Premium</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Crop Recommendation Card -->
+                <div class="card bg-white rounded-lg shadow overflow-hidden">
+                    <div class="bg-green-600 p-4 text-white">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-lg">Crop Recommendation</h3>
+                            <i class="fas fa-seedling text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">District</label>
+                            <select id="district-select" class="w-full p-2 border rounded-md">
+                                <option value="">Select district</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Village / Block</label>
+                            <select id="village-select" class="w-full p-2 border rounded-md" disabled>
+                                <option value="">Select district first</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Soil type</label>
+                            <select id="soil-select" class="w-full p-2 border rounded-md">
+                                <option>Black soil</option>
+                                <option>Red soil</option>
+                                <option>Alluvial soil</option>
+                                <option>Laterite soil</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Season</label>
+                            <select id="season-select" class="w-full p-2 border rounded-md">
+                                <option>Kharif (June-October)</option>
+                                <option>Rabi (November-April)</option>
+                                <option>Zaid (March-June)</option>
+                            </select>
+                        </div>
+                        <button id="crop-btn" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md">
+                            Get Recommendations
+                        </button>
+                        <div id="crop-result" class="mt-4 p-3 bg-green-50 rounded hidden">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Forecast Card -->
+                <div class="card bg-white rounded-lg shadow overflow-hidden">
+                    <div class="bg-blue-600 p-4 text-white">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-lg">Weather Forecast</h3>
+                            <i class="fas fa-cloud-sun text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+
+                        <div class="mb-4">
+                            <button id="gps-btn" class="w-full bg-green-600 text-white py-2 rounded-md">
+                                📍 Use My GPS Location
+                            </button>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 id="weather-location" class="font-semibold">Location</h4>
+                            <p id="weather-updated" class="text-sm text-gray-600"></p>
+                        </div>
+
+                        <div class="text-center mb-4">
+                            <div id="weather-temp" class="text-5xl font-bold">--°C</div>
+                            <div id="weather-condition" class="text-gray-600"></div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 text-center">
+
+                            <div class="bg-blue-50 p-3 rounded">
+                                <p>💧 Humidity</p>
+                                <h4 id="humidity">--%</h4>
+                            </div>
+
+                            <div class="bg-green-50 p-3 rounded">
+                                <p>🌬 Wind</p>
+                                <h4 id="wind-speed">-- km/h</h4>
+                            </div>
+
+                            <div class="bg-yellow-50 p-3 rounded">
+                                <p>🌧 Rain Chance</p>
+                                <h4 id="rain-chance">--%</h4>
+                            </div>
+
+                            <div class="bg-purple-50 p-3 rounded">
+                                <p>☀ UV Index</p>
+                                <h4 id="uv-index">--</h4>
+                            </div>
+
+                        </div>
+
+                        <div id="weather-alert-box" class="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-3 hidden">
+                            <p id="weather-alert"></p>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 mt-4 shadow">
+                            <h3 class="font-bold text-lg mb-3">
+                                7-Day Forecast
+                            </h3>
+
+                            <div id="forecast-container" class="grid grid-cols-1 md:grid-cols-7 gap-2">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Market Prices Card -->
+                <div class="card bg-white rounded-lg shadow overflow-hidden">
+                    <div class="bg-purple-600 p-4 text-white">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-lg">Market Prices</h3>
+                            <i class="fas fa-rupee-sign text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Select market</label>
+                            <select id="market-select" class="w-full p-2 border rounded-md">
+                                <option value="Kolkata">Kolkata</option>
+                                <option value="Howrah">Howrah</option>
+                                <option value="Asansol">Asansol</option>
+                                <option value="Siliguri">Siliguri</option>
+                                <option value="Kharagpur">Kharagpur</option>
+                            </select>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b">
+                                        <th class="text-left py-2 text-gray-600">Crop</th>
+                                        <th class="text-right py-2 text-gray-600">Price (₹/q)</th>
+                                        <th class="text-right py-2 text-gray-600">Trend</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="market-table">
+                                    <tr class="border-b">
+                                        <td class="py-2">Paddy</td>
+                                        <td class="text-right">1,850</td>
+                                        <td class="text-right text-green-500"><i class="fas fa-arrow-up"></i> 2%</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="py-2">Maize</td>
+                                        <td class="text-right">1,650</td>
+                                        <td class="text-right text-red-500"><i class="fas fa-arrow-down"></i> 1%</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="py-2">Sugarcane</td>
+                                        <td class="text-right">2,750</td>
+                                        <td class="text-right text-green-500"><i class="fas fa-arrow-up"></i> 5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2">Tomato</td>
+                                        <td class="text-right">1,200</td>
+                                        <td class="text-right">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button id="load-market-btn"
+                            class="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-md">
+                            View All Prices
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advisory Feed -->
+        <div class="mb-8" id="advisory">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Latest Advisories</h2>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="border-b p-4 bg-gray-50">
+                    <h3 class="font-semibold text-lg">Farming Tips & Alerts</h3>
+                </div>
+                <div class="divide-y">
+                    <div class="p-4 hover:bg-gray-50">
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-tint text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Irrigation Advisory</h4>
+                                <p class="text-gray-600 text-sm">Due to forecasted rains, reduce irrigation frequency by
+                                    30% this week to prevent waterlogging.</p>
+                                <p class="text-gray-400 text-xs mt-1">2 hours ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 hover:bg-gray-50">
+                        <div class="flex items-start">
+                            <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-bug text-yellow-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Pest Alert</h4>
+                                <p class="text-gray-600 text-sm">Increased reports of Fall Armyworm in maize crops.
+                                    Apply recommended pesticides at early signs.</p>
+                                <p class="text-gray-400 text-xs mt-1">1 day ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 hover:bg-gray-50">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-shopping-basket text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Market Update</h4>
+                                <p class="text-gray-600 text-sm">Tomato prices expected to rise by 15-20% next week due
+                                    to reduced supply. Consider holding stocks.</p>
+                                <p class="text-gray-400 text-xs mt-1">2 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 border-t text-center">
+                    <button class="text-green-600 hover:text-green-800 font-medium">
+                        View All Advisories <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SMS Interface -->
+        <div class="mb-12" id="ai-chat">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800 flex items-center gap-3">
+                <i class="fas fa-robot text-green-600"></i>
+                KISAN-SATHI AI Assistant
+            </h2>
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-green-100">
+                <!-- Chat Header -->
+                <div class="bg-green-700 text-white p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-green-700">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold">AI Farming Expert</h3>
+                        </div>
+                    </div>
+
+                    <!-- Language Selector -->
+                    <div class="flex gap-1 bg-green-600 rounded-lg p-1" id="language-selector">
+                        <button data-lang="en"
+                            class="lang-btn px-4 py-1 rounded-md text-sm font-medium">English</button>
+                        <button data-lang="hi"
+                            class="lang-btn px-4 py-1 rounded-md text-sm font-medium active">हिंदी</button>
+                        <button data-lang="bn" class="lang-btn px-4 py-1 rounded-md text-sm font-medium">বাংলা</button>
+                    </div>
+                </div>
+
+                <!-- Messages Area -->
+                <div id="chat-container" class="chat-container p-6 bg-gray-50 space-y-4 min-h-[420px]">
+                    <!-- Messages added by JS -->
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-4 border-t bg-white">
+                    <div class="flex gap-2">
+                        <input type="text" id="chat-input" placeholder="Ask anything about farming..."
+                            class="flex-1 border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        <button id="voice-btn"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl transition flex items-center justify-center w-14 h-14"
+                            title="Voice Input">
+                            <i class="fas fa-microphone text-xl"></i>
+                        </button>
+                        <button id="send-btn"
+                            class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl transition flex items-center gap-2">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3 text-center" id="lang-status">
+                        Current Language: हिंदी
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section class="bg-gray-50 py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">How KISAN-SATHI Helps Farmers</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6 bg-white rounded-lg shadow">
+                    <div class="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-robot text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">AI-Powered Advice</h3>
+                    <p class="text-gray-600">Get personalized crop recommendations based on your soil, weather, and
+                        market conditions.</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-lg shadow">
+                    <div class="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-sms text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">SMS Interface</h3>
+                    <p class="text-gray-600">Works on any basic phone - no smartphone or internet connection required.
+                    </p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-lg shadow">
+                    <div class="bg-purple-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Market Intelligence</h3>
+                    <p class="text-gray-600">Real-time price updates and trends to help you get the best deal for your
+                        crops.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4">KISAN-SATHI</h3>
+                    <p class="text-gray-400">Empowering smallholder farmers with AI-driven agricultural intelligence via
+                        accessible technology.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">How It Works</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Crop Database</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Weather Maps</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Market Trends</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#"
+                            class="bg-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-green-600">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#"
+                            class="bg-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-blue-400">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#"
+                            class="bg-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-purple-600">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="bg-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-500">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400">Farmer Helpline: <span class="font-semibold">1800-123-4567</span></p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 KISAN-SATHI. All rights reserved. Designed for smallholder farmers worldwide.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="web.js"></script>
+
+
+    <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-xl font-bold mb-4">Edit Profile</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-gray-700">Update Name</label>
+                    <input type="text" id="edit-name" class="w-full p-2 border rounded-md">
+                </div>
+                <div>
+                    <label class="block text-gray-700">Update Phone</label>
+                    <input type="tel" id="edit-phone" class="w-full p-2 border rounded-md">
+                </div>
+                <div class="flex justify-end space-x-2 mt-4">
+                    <button id="close-modal" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Cancel</button>
+                    <button id="save-profile" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save
+                        Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
