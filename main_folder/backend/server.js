@@ -6,7 +6,7 @@ const fs = require('fs'); // 🟢 NEW: File System module to save data
 const path = require('path'); // 🟢 NEW: Path module
 
 dotenv.config();
-
+//console.log("Diagnostic Key Check:", process.env.GROQ_API_KEY);
 const app = express();
 app.use(cors());
 app.use(express.json());
